@@ -49,3 +49,4 @@ class Game:
         self.screen.fill(BLACK)
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
+

@@ -21,7 +21,5 @@ class Player(pygame.sprite.Sprite):
         if self.rect.right >= SCREEN_WIDTH:
             self.rect.right = SCREEN_WIDTH
 
-        if key[pygame.K_LEFT]:
-            self.rect.x -= 5
-        if self.rect.left >= SCREEN_WIDTH:
-            self.rect.left = SCREEN_WIDTH
+        
+
