@@ -16,6 +16,9 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         key = pygame.key.get_pressed()
 
+        #It is assigned the movement that it will do when it plays a certain key //
+        # Se le asigna el movimiento que hará cuando toque una determinada tecla
+
         if key[pygame.K_RIGHT]:
             self.rect.x += 5
         if self.rect.right >= SCREEN_WIDTH:
@@ -25,6 +28,9 @@ class Player(pygame.sprite.Sprite):
             self.rect.x -= 5
         if self.rect.left >= SCREEN_WIDTH:
             self.rect.left = SCREEN_WIDTH
+
+        #This part is for the player to avoid exiting the screen to the left //
+        # Esta parte es para que el jugador evite salir de la pantalla por la izquierda
 
         if self.rect.x <= 0:
             self.rect.x = 0
