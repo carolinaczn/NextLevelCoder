@@ -1,5 +1,6 @@
 import pygame
 
+
 from utils.constans import WHITE, SCREEN_WIDTH, SCREEN_HEIGHT
 
 
