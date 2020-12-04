@@ -1,6 +1,7 @@
 import pygame
 
-from utils.constans import (GREEN, SCREEN_HEIGHT,SCREEN_WIDTH)
+from utils.constans import (GREEN, SCREEN_HEIGHT, SCREEN_WIDTH, IMG_DIR, BLACK, WHITE)
+from os import path
 
 import random
 
@@ -12,8 +13,9 @@ class Ball(pygame.sprite.Sprite):
     def __init__(self, size):
 
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((30, 40))
-        self.image.fill(GREEN)
+        self.image = pygame.image.load(path.join(IMG_DIR, "rocket.png")).convert()
+        self.image = pygame.transform.scale(self.image, (100//size, 100//size))
+        self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
 
         #is assigned so that the ball appears on either side of the screen //
