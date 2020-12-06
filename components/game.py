@@ -1,5 +1,7 @@
 import pygame
 
+from timeit import timeit
+from components.up_power import Up_power
 from utils.text_utils import draw_text
 from components.ball import Ball
 from os import path
@@ -11,6 +13,7 @@ from utils.constans import (
     BLACK, IMG_DIR
 )
 
+
 class Game:
     def __init__(self):
         pygame.init()
@@ -21,6 +24,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.playing = False
         self.runnig = True
+        self.has_power_up = False
 
     def run(self):
         self.create_components()
@@ -34,12 +38,10 @@ class Game:
             self.draw()
             self.clock.tick(120)
 
-
-
-
     def create_components(self):
         self.all_sprites = pygame.sprite.Group()
         self.balls = pygame.sprite.Group()
+        self.up_powers = pygame.sprite.Group()
         self.player = Player(self)
         self.all_sprites.add(self.player)
 
@@ -47,25 +49,30 @@ class Game:
         self.all_sprites.add(ball)
         self.balls.add(ball)
 
-
+        up_power = Up_power(1)
+        self.all_sprites.add(up_power)
+        self.up_powers.add(up_power)
 
     def update(self):
         self.all_sprites.update()
+
+        up_power_collision = pygame.sprite.spritecollide(self.player, self.up_powers, True)
+        if up_power_collision:
+            self.has_power_up = True
+
         hits = pygame.sprite.spritecollide(self.player, self.balls, False)
         if hits:
             self.playing = False
+            self.has_power_up = False
 
         hits = pygame.sprite.groupcollide(self.balls, self.player.bullets, True, True)
 
         for hit in hits:
-            if hit.size <4:
-                for i in  range(0, 2):
-                    ball = Ball(hit.size + 1 )
+            if hit.size < 4:
+                for i in range(0, 2):
+                    ball = Ball(hit.size + 1)
                     self.all_sprites.add(ball)
                     self.balls.add(ball)
-
-
-
 
     def events(self):
         for event in pygame.event.get():
@@ -74,11 +81,7 @@ class Game:
                 self.runnig = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    self.player.shoot()
-
-
-
-
+                    self.player.shoot(self.has_power_up)
 
     def draw(self):
         background_rect = self.background_image.get_rect()
@@ -88,9 +91,10 @@ class Game:
 
     def show_start_screen(self):
         self.screen.blit(self.background_image, self.background_image.get_rect())
-        draw_text(self.screen, "Game Punch that", 64, SCREEN_WIDTH/2, SCREEN_HEIGHT/4)
-        draw_text(self.screen, "Press left right keys to move and SPACE to shoot", 20, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
-        draw_text(self.screen, "Press ENTER key to begin", 20, SCREEN_WIDTH/2, SCREEN_HEIGHT*3/5)
+        draw_text(self.screen, "Game Punch that", 64, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4)
+        draw_text(self.screen, "Press left right keys to move and SPACE to shoot", 20, SCREEN_WIDTH / 2,
+                  SCREEN_HEIGHT / 2)
+        draw_text(self.screen, "Press ENTER key to begin", 20, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3 / 5)
 
         pygame.display.flip()
 
@@ -104,4 +108,3 @@ class Game:
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_RETURN:
                         waiting = False
-
