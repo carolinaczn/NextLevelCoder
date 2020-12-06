@@ -2,7 +2,7 @@ import pygame
 
 from timeit import timeit
 
-from components.more_balls import Enemy
+from components.enemy import Enemy
 from components.up_power import Up_power
 from utils.text_utils import draw_text
 from components.ball import Ball
