@@ -20,7 +20,6 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottom = SCREEN_HEIGHT - 10
         self.bullets = pygame.sprite.Group()
 
-
     def update(self):
         key = pygame.key.get_pressed()
 
@@ -52,12 +51,12 @@ class Player(pygame.sprite.Sprite):
             self.game.all_sprites.add(bullet)
             self.bullets.add(bullet)
 
-        if powerUp :
+        if powerUp:
             bullet5 = Bullet(self.rect.centerx, self.rect.top)
 
-            bullet1 = Bullet(self.rect.centerx + 20, self.rect.top)
+            bullet1 = Bullet(self.rect.centerx + 10, self.rect.top)
 
-            bullet2 = Bullet(self.rect.centerx - 20, self.rect.top)
+            bullet2 = Bullet(self.rect.centerx - 10, self.rect.top)
 
             bullet3 = Bullet(self.rect.centerx + 20, self.rect.top)
 

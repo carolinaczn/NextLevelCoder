@@ -1,6 +1,8 @@
 import pygame
 
 from timeit import timeit
+
+from components.more_balls import Enemy
 from components.up_power import Up_power
 from utils.text_utils import draw_text
 from components.ball import Ball
@@ -42,6 +44,8 @@ class Game:
         self.all_sprites = pygame.sprite.Group()
         self.balls = pygame.sprite.Group()
         self.up_powers = pygame.sprite.Group()
+        self.enemys = pygame.sprite.Group()
+
         self.player = Player(self)
         self.all_sprites.add(self.player)
 
@@ -49,12 +53,22 @@ class Game:
         self.all_sprites.add(ball)
         self.balls.add(ball)
 
+        enemy = Enemy()
+        self.all_sprites.add(enemy)
+        self.enemys.add(enemy)
+
         up_power = Up_power(1)
         self.all_sprites.add(up_power)
         self.up_powers.add(up_power)
 
     def update(self):
         self.all_sprites.update()
+
+        enem = pygame.sprite.spritecollide(self.player, self.enemys, True)
+        if enem:
+            self.playing = False
+            self.has_power_up = False
+            self.choque = False
 
         up_power_collision = pygame.sprite.spritecollide(self.player, self.up_powers, True)
         if up_power_collision:
@@ -64,6 +78,7 @@ class Game:
         if hits:
             self.playing = False
             self.has_power_up = False
+            self.choque = False
 
         hits = pygame.sprite.groupcollide(self.balls, self.player.bullets, True, True)
 
